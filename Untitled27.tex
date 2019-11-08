@@ -1,0 +1,1844 @@
+
+    
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    \usepackage[breakable]{tcolorbox}
+    \tcbset{nobeforeafter} % prevents tcolorboxes being placing in paragraphs
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Untitled27}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \newcommand{\prompt}[4]{
+        \llap{{\color{#2}[#3]: #4}}\vspace{-1.25em}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/home/spit/Downloads/housepricedata.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+      LotArea  OverallQual  OverallCond  TotalBsmtSF  FullBath  HalfBath  \textbackslash{}
+0        8450            7            5          856         2         1
+1        9600            6            8         1262         2         0
+2       11250            7            5          920         2         1
+3        9550            7            5          756         1         0
+4       14260            8            5         1145         2         1
+5       14115            5            5          796         1         1
+6       10084            8            5         1686         2         0
+7       10382            7            6         1107         2         1
+8        6120            7            5          952         2         0
+9        7420            5            6          991         1         0
+10      11200            5            5         1040         1         0
+11      11924            9            5         1175         3         0
+12      12968            5            6          912         1         0
+13      10652            7            5         1494         2         0
+14      10920            6            5         1253         1         1
+15       6120            7            8          832         1         0
+16      11241            6            7         1004         1         0
+17      10791            4            5            0         2         0
+18      13695            5            5         1114         1         1
+19       7560            5            6         1029         1         0
+20      14215            8            5         1158         3         1
+21       7449            7            7          637         1         0
+22       9742            8            5         1777         2         0
+23       4224            5            7         1040         1         0
+24       8246            5            8         1060         1         0
+25      14230            8            5         1566         2         0
+26       7200            5            7          900         1         0
+27      11478            8            5         1704         2         0
+28      16321            5            6         1484         1         0
+29       6324            4            6          520         1         0
+{\ldots}       {\ldots}          {\ldots}          {\ldots}          {\ldots}       {\ldots}       {\ldots}
+1430    21930            5            5          732         2         1
+1431     4928            6            6          958         2         0
+1432    10800            4            6          656         2         0
+1433    10261            6            5          936         2         1
+1434    17400            5            5         1126         2         0
+1435     8400            6            9         1319         1         1
+1436     9000            4            6          864         1         0
+1437    12444            8            5         1932         2         0
+1438     7407            6            7          912         1         0
+1439    11584            7            6          539         2         1
+1440    11526            6            7          588         2         0
+1441     4426            6            5          848         1         0
+1442    11003           10            5         1017         2         1
+1443     8854            6            6          952         1         0
+1444     8500            7            5         1422         2         0
+1445     8400            6            5          814         1         0
+1446    26142            5            7         1188         1         0
+1447    10000            8            5         1220         2         1
+1448    11767            4            7          560         1         1
+1449     1533            5            7          630         1         0
+1450     9000            5            5          896         2         2
+1451     9262            8            5         1573         2         0
+1452     3675            5            5          547         1         0
+1453    17217            5            5         1140         1         0
+1454     7500            7            5         1221         2         0
+1455     7917            6            5          953         2         1
+1456    13175            6            6         1542         2         0
+1457     9042            7            9         1152         2         0
+1458     9717            5            6         1078         1         0
+1459     9937            5            6         1256         1         1
+
+      BedroomAbvGr  TotRmsAbvGrd  Fireplaces  GarageArea  AboveMedianPrice
+0                3             8           0         548                 1
+1                3             6           1         460                 1
+2                3             6           1         608                 1
+3                3             7           1         642                 0
+4                4             9           1         836                 1
+5                1             5           0         480                 0
+6                3             7           1         636                 1
+7                3             7           2         484                 1
+8                2             8           2         468                 0
+9                2             5           2         205                 0
+10               3             5           0         384                 0
+11               4            11           2         736                 1
+12               2             4           0         352                 0
+13               3             7           1         840                 1
+14               2             5           1         352                 0
+15               2             5           0         576                 0
+16               2             5           1         480                 0
+17               2             6           0         516                 0
+18               3             6           0         576                 0
+19               3             6           0         294                 0
+20               4             9           1         853                 1
+21               3             6           1         280                 0
+22               3             7           1         534                 1
+23               3             6           1         572                 0
+24               3             6           1         270                 0
+25               3             7           1         890                 1
+26               3             5           0         576                 0
+27               3             7           1         772                 1
+28               2             6           2         319                 1
+29               1             4           0         240                 0
+{\ldots}            {\ldots}           {\ldots}         {\ldots}         {\ldots}               {\ldots}
+1430             4             7           1         372                 1
+1431             2             5           0         440                 0
+1432             4             5           0         216                 0
+1433             3             8           1         451                 1
+1434             3             5           1         484                 0
+1435             3             7           1         462                 1
+1436             3             5           0         528                 0
+1437             2             7           1         774                 1
+1438             2             6           0         923                 0
+1439             3             6           1         550                 1
+1440             3            11           1         672                 1
+1441             1             3           1         420                 0
+1442             3            10           1         812                 1
+1443             2             4           1         192                 0
+1444             3             7           0         626                 1
+1445             3             6           0         240                 0
+1446             3             6           0         312                 0
+1447             3             8           1         556                 1
+1448             2             6           0         384                 0
+1449             1             3           0           0                 0
+1450             4             8           0           0                 0
+1451             3             7           1         840                 1
+1452             2             5           0         525                 0
+1453             3             6           0           0                 0
+1454             2             6           0         400                 1
+1455             3             7           1         460                 1
+1456             3             7           2         500                 1
+1457             4             9           2         252                 1
+1458             2             5           0         240                 0
+1459             3             6           0         276                 0
+
+[1460 rows x 11 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dataset} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{values}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dataset}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 8450,     7,     5, {\ldots},     0,   548,     1],
+       [ 9600,     6,     8, {\ldots},     1,   460,     1],
+       [11250,     7,     5, {\ldots},     1,   608,     1],
+       {\ldots},
+       [ 9042,     7,     9, {\ldots},     2,   252,     1],
+       [ 9717,     5,     6, {\ldots},     0,   240,     0],
+       [ 9937,     5,     6, {\ldots},     0,   276,     0]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{dataset}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Y} \PY{o}{=} \PY{n}{dataset}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn} \PY{k}{import} \PY{n}{preprocessing}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{min\PYZus{}max\PYZus{}scaler} \PY{o}{=} \PY{n}{preprocessing}\PY{o}{.}\PY{n}{MinMaxScaler}\PY{p}{(}\PY{p}{)}
+\PY{n}{X\PYZus{}scale} \PY{o}{=} \PY{n}{min\PYZus{}max\PYZus{}scaler}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/spit/anaconda3/lib/python3.7/site-
+packages/sklearn/utils/validation.py:595: DataConversionWarning: Data with input
+dtype int64 was converted to float64 by MinMaxScaler.
+  warnings.warn(msg, DataConversionWarning)
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}scale}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[0.0334198 , 0.66666667, 0.5       , {\ldots}, 0.5       , 0.        ,
+        0.3864598 ],
+       [0.03879502, 0.55555556, 0.875     , {\ldots}, 0.33333333, 0.33333333,
+        0.32440056],
+       [0.04650728, 0.66666667, 0.5       , {\ldots}, 0.33333333, 0.33333333,
+        0.42877292],
+       {\ldots},
+       [0.03618687, 0.66666667, 1.        , {\ldots}, 0.58333333, 0.66666667,
+        0.17771509],
+       [0.03934189, 0.44444444, 0.625     , {\ldots}, 0.25      , 0.        ,
+        0.16925247],
+       [0.04037019, 0.44444444, 0.625     , {\ldots}, 0.33333333, 0.        ,
+        0.19464034]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}val\PYZus{}and\PYZus{}test}\PY{p}{,} \PY{n}{Y\PYZus{}train}\PY{p}{,} \PY{n}{Y\PYZus{}val\PYZus{}and\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X\PYZus{}scale}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}val}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{Y\PYZus{}val}\PY{p}{,} \PY{n}{Y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X\PYZus{}val\PYZus{}and\PYZus{}test}\PY{p}{,} \PY{n}{Y\PYZus{}val\PYZus{}and\PYZus{}test}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{X\PYZus{}val}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{Y\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{Y\PYZus{}val}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{Y\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(1022, 10) (219, 10) (219, 10) (1022,) (219,) (219,)
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{models} \PY{k}{import} \PY{n}{Sequential}
+\PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{layers} \PY{k}{import} \PY{n}{Dense}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Using TensorFlow backend.
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model} \PY{o}{=} \PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+WARNING:tensorflow:From /home/spit/anaconda3/lib/python3.7/site-
+packages/keras/backend/tensorflow\_backend.py:66: The name tf.get\_default\_graph
+is deprecated. Please use tf.compat.v1.get\_default\_graph instead.
+
+WARNING:tensorflow:From /home/spit/anaconda3/lib/python3.7/site-
+packages/keras/backend/tensorflow\_backend.py:541: The name tf.placeholder is
+deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From /home/spit/anaconda3/lib/python3.7/site-
+packages/keras/backend/tensorflow\_backend.py:4432: The name tf.random\_uniform is
+deprecated. Please use tf.random.uniform instead.
+
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sgd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+WARNING:tensorflow:From /home/spit/anaconda3/lib/python3.7/site-
+packages/keras/optimizers.py:793: The name tf.train.Optimizer is deprecated.
+Please use tf.compat.v1.train.Optimizer instead.
+
+WARNING:tensorflow:From /home/spit/anaconda3/lib/python3.7/site-
+packages/keras/backend/tensorflow\_backend.py:3657: The name tf.log is
+deprecated. Please use tf.math.log instead.
+
+WARNING:tensorflow:From /home/spit/anaconda3/lib/python3.7/site-
+packages/tensorflow/python/ops/nn\_impl.py:180:
+add\_dispatch\_support.<locals>.wrapper (from tensorflow.python.ops.array\_ops) is
+deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hist} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{Y\PYZus{}train}\PY{p}{,}
+          \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+          \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{X\PYZus{}val}\PY{p}{,} \PY{n}{Y\PYZus{}val}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train on 1022 samples, validate on 219 samples
+Epoch 1/100
+1022/1022 [==============================] - 0s 40us/step - loss: 0.2782 - acc:
+0.8943 - val\_loss: 0.2775 - val\_acc: 0.8813
+Epoch 2/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2774 - acc:
+0.8904 - val\_loss: 0.2739 - val\_acc: 0.8950
+Epoch 3/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2769 - acc:
+0.8933 - val\_loss: 0.2734 - val\_acc: 0.8950
+Epoch 4/100
+1022/1022 [==============================] - 0s 22us/step - loss: 0.2756 - acc:
+0.8933 - val\_loss: 0.2723 - val\_acc: 0.8995
+Epoch 5/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2753 - acc:
+0.8953 - val\_loss: 0.2720 - val\_acc: 0.8950
+Epoch 6/100
+1022/1022 [==============================] - 0s 22us/step - loss: 0.2747 - acc:
+0.8943 - val\_loss: 0.2722 - val\_acc: 0.8950
+Epoch 7/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2738 - acc:
+0.8924 - val\_loss: 0.2708 - val\_acc: 0.8950
+Epoch 8/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2733 - acc:
+0.8933 - val\_loss: 0.2712 - val\_acc: 0.8950
+Epoch 9/100
+1022/1022 [==============================] - 0s 20us/step - loss: 0.2727 - acc:
+0.8933 - val\_loss: 0.2714 - val\_acc: 0.8950
+Epoch 10/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2711 - acc:
+0.8924 - val\_loss: 0.2724 - val\_acc: 0.8858
+Epoch 11/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2711 - acc:
+0.8953 - val\_loss: 0.2686 - val\_acc: 0.8950
+Epoch 12/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2705 - acc:
+0.8943 - val\_loss: 0.2696 - val\_acc: 0.8950
+Epoch 13/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2700 - acc:
+0.8924 - val\_loss: 0.2672 - val\_acc: 0.8995
+Epoch 14/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2696 - acc:
+0.8894 - val\_loss: 0.2668 - val\_acc: 0.8995
+Epoch 15/100
+1022/1022 [==============================] - 0s 30us/step - loss: 0.2686 - acc:
+0.8933 - val\_loss: 0.2671 - val\_acc: 0.8950
+Epoch 16/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2689 - acc:
+0.8933 - val\_loss: 0.2674 - val\_acc: 0.8950
+Epoch 17/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2683 - acc:
+0.8953 - val\_loss: 0.2678 - val\_acc: 0.8950
+Epoch 18/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2679 - acc:
+0.8963 - val\_loss: 0.2654 - val\_acc: 0.8995
+Epoch 19/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2668 - acc:
+0.8973 - val\_loss: 0.2661 - val\_acc: 0.8950
+Epoch 20/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2663 - acc:
+0.8933 - val\_loss: 0.2655 - val\_acc: 0.8950
+Epoch 21/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2657 - acc:
+0.8943 - val\_loss: 0.2636 - val\_acc: 0.8995
+Epoch 22/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2657 - acc:
+0.8963 - val\_loss: 0.2633 - val\_acc: 0.8995
+Epoch 23/100
+1022/1022 [==============================] - 0s 22us/step - loss: 0.2645 - acc:
+0.8943 - val\_loss: 0.2628 - val\_acc: 0.8950
+Epoch 24/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2648 - acc:
+0.8933 - val\_loss: 0.2628 - val\_acc: 0.8995
+Epoch 25/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2640 - acc:
+0.8953 - val\_loss: 0.2623 - val\_acc: 0.8995
+Epoch 26/100
+1022/1022 [==============================] - 0s 20us/step - loss: 0.2637 - acc:
+0.8953 - val\_loss: 0.2645 - val\_acc: 0.8950
+Epoch 27/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2624 - acc:
+0.8973 - val\_loss: 0.2620 - val\_acc: 0.8995
+Epoch 28/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2628 - acc:
+0.8973 - val\_loss: 0.2631 - val\_acc: 0.8950
+Epoch 29/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2620 - acc:
+0.8963 - val\_loss: 0.2618 - val\_acc: 0.8995
+Epoch 30/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2630 - acc:
+0.8924 - val\_loss: 0.2608 - val\_acc: 0.8995
+Epoch 31/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2614 - acc:
+0.8982 - val\_loss: 0.2621 - val\_acc: 0.8950
+Epoch 32/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2611 - acc:
+0.8924 - val\_loss: 0.2606 - val\_acc: 0.8995
+Epoch 33/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2609 - acc:
+0.8963 - val\_loss: 0.2609 - val\_acc: 0.8995
+Epoch 34/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2604 - acc:
+0.8953 - val\_loss: 0.2598 - val\_acc: 0.8995
+Epoch 35/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2592 - acc:
+0.8933 - val\_loss: 0.2590 - val\_acc: 0.8995
+Epoch 36/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2592 - acc:
+0.8943 - val\_loss: 0.2619 - val\_acc: 0.8995
+Epoch 37/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2589 - acc:
+0.8973 - val\_loss: 0.2583 - val\_acc: 0.8950
+Epoch 38/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2582 - acc:
+0.8982 - val\_loss: 0.2583 - val\_acc: 0.8950
+Epoch 39/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2585 - acc:
+0.8943 - val\_loss: 0.2589 - val\_acc: 0.8995
+Epoch 40/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2585 - acc:
+0.8982 - val\_loss: 0.2585 - val\_acc: 0.8995
+Epoch 41/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2575 - acc:
+0.8943 - val\_loss: 0.2608 - val\_acc: 0.8950
+Epoch 42/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2579 - acc:
+0.8982 - val\_loss: 0.2578 - val\_acc: 0.8995
+Epoch 43/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2574 - acc:
+0.8933 - val\_loss: 0.2582 - val\_acc: 0.9041
+Epoch 44/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2567 - acc:
+0.8933 - val\_loss: 0.2579 - val\_acc: 0.9041
+Epoch 45/100
+1022/1022 [==============================] - 0s 20us/step - loss: 0.2577 - acc:
+0.8953 - val\_loss: 0.2585 - val\_acc: 0.9041
+Epoch 46/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2565 - acc:
+0.8973 - val\_loss: 0.2564 - val\_acc: 0.8995
+Epoch 47/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2560 - acc:
+0.8982 - val\_loss: 0.2573 - val\_acc: 0.9041
+Epoch 48/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2555 - acc:
+0.8982 - val\_loss: 0.2563 - val\_acc: 0.9041
+Epoch 49/100
+1022/1022 [==============================] - 0s 29us/step - loss: 0.2550 - acc:
+0.8953 - val\_loss: 0.2548 - val\_acc: 0.8950
+Epoch 50/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2555 - acc:
+0.8982 - val\_loss: 0.2550 - val\_acc: 0.8950
+Epoch 51/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2547 - acc:
+0.8963 - val\_loss: 0.2545 - val\_acc: 0.8950
+Epoch 52/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2542 - acc:
+0.8953 - val\_loss: 0.2561 - val\_acc: 0.9041
+Epoch 53/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2540 - acc:
+0.8943 - val\_loss: 0.2561 - val\_acc: 0.9041
+Epoch 54/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2539 - acc:
+0.8953 - val\_loss: 0.2551 - val\_acc: 0.9041
+Epoch 55/100
+1022/1022 [==============================] - 0s 29us/step - loss: 0.2538 - acc:
+0.8943 - val\_loss: 0.2569 - val\_acc: 0.9041
+Epoch 56/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2533 - acc:
+0.8953 - val\_loss: 0.2542 - val\_acc: 0.8995
+Epoch 57/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2521 - acc:
+0.8973 - val\_loss: 0.2534 - val\_acc: 0.8950
+Epoch 58/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2536 - acc:
+0.8963 - val\_loss: 0.2538 - val\_acc: 0.8995
+Epoch 59/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2526 - acc:
+0.8963 - val\_loss: 0.2546 - val\_acc: 0.9041
+Epoch 60/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2517 - acc:
+0.8953 - val\_loss: 0.2571 - val\_acc: 0.8995
+Epoch 61/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2522 - acc:
+0.8943 - val\_loss: 0.2525 - val\_acc: 0.8950
+Epoch 62/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2514 - acc:
+0.8963 - val\_loss: 0.2522 - val\_acc: 0.8950
+Epoch 63/100
+1022/1022 [==============================] - 0s 20us/step - loss: 0.2526 - acc:
+0.8953 - val\_loss: 0.2524 - val\_acc: 0.8995
+Epoch 64/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2521 - acc:
+0.8973 - val\_loss: 0.2558 - val\_acc: 0.9041
+Epoch 65/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2521 - acc:
+0.8973 - val\_loss: 0.2517 - val\_acc: 0.8950
+Epoch 66/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2510 - acc:
+0.8982 - val\_loss: 0.2522 - val\_acc: 0.8995
+Epoch 67/100
+1022/1022 [==============================] - 0s 22us/step - loss: 0.2512 - acc:
+0.8982 - val\_loss: 0.2543 - val\_acc: 0.9041
+Epoch 68/100
+1022/1022 [==============================] - 0s 20us/step - loss: 0.2512 - acc:
+0.8982 - val\_loss: 0.2517 - val\_acc: 0.8995
+Epoch 69/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2495 - acc:
+0.8953 - val\_loss: 0.2530 - val\_acc: 0.9087
+Epoch 70/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2506 - acc:
+0.8982 - val\_loss: 0.2520 - val\_acc: 0.8995
+Epoch 71/100
+1022/1022 [==============================] - 0s 20us/step - loss: 0.2506 - acc:
+0.8982 - val\_loss: 0.2553 - val\_acc: 0.9041
+Epoch 72/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2504 - acc:
+0.8982 - val\_loss: 0.2515 - val\_acc: 0.8995
+Epoch 73/100
+1022/1022 [==============================] - 0s 22us/step - loss: 0.2502 - acc:
+0.8963 - val\_loss: 0.2507 - val\_acc: 0.8995
+Epoch 74/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2501 - acc:
+0.8953 - val\_loss: 0.2503 - val\_acc: 0.8950
+Epoch 75/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2489 - acc:
+0.8973 - val\_loss: 0.2504 - val\_acc: 0.8995
+Epoch 76/100
+1022/1022 [==============================] - 0s 21us/step - loss: 0.2481 - acc:
+0.8973 - val\_loss: 0.2569 - val\_acc: 0.8995
+Epoch 77/100
+1022/1022 [==============================] - 0s 22us/step - loss: 0.2483 - acc:
+0.8943 - val\_loss: 0.2499 - val\_acc: 0.8950
+Epoch 78/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2484 - acc:
+0.8953 - val\_loss: 0.2497 - val\_acc: 0.8950
+Epoch 79/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2479 - acc:
+0.8992 - val\_loss: 0.2554 - val\_acc: 0.9041
+Epoch 80/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2483 - acc:
+0.8953 - val\_loss: 0.2521 - val\_acc: 0.9087
+Epoch 81/100
+1022/1022 [==============================] - 0s 24us/step - loss: 0.2480 - acc:
+0.8982 - val\_loss: 0.2503 - val\_acc: 0.9041
+Epoch 82/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2485 - acc:
+0.8973 - val\_loss: 0.2493 - val\_acc: 0.8995
+Epoch 83/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2482 - acc:
+0.8992 - val\_loss: 0.2494 - val\_acc: 0.8950
+Epoch 84/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2490 - acc:
+0.8992 - val\_loss: 0.2490 - val\_acc: 0.8995
+Epoch 85/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2473 - acc:
+0.8992 - val\_loss: 0.2529 - val\_acc: 0.9041
+Epoch 86/100
+1022/1022 [==============================] - 0s 23us/step - loss: 0.2476 - acc:
+0.8963 - val\_loss: 0.2501 - val\_acc: 0.9041
+Epoch 87/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2477 - acc:
+0.8973 - val\_loss: 0.2507 - val\_acc: 0.9041
+Epoch 88/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2466 - acc:
+0.8963 - val\_loss: 0.2542 - val\_acc: 0.9041
+Epoch 89/100
+1022/1022 [==============================] - 0s 32us/step - loss: 0.2469 - acc:
+0.8973 - val\_loss: 0.2485 - val\_acc: 0.8995
+Epoch 90/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2452 - acc:
+0.9002 - val\_loss: 0.2565 - val\_acc: 0.9087
+Epoch 91/100
+1022/1022 [==============================] - 0s 28us/step - loss: 0.2467 - acc:
+0.8933 - val\_loss: 0.2508 - val\_acc: 0.9041
+Epoch 92/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2470 - acc:
+0.8963 - val\_loss: 0.2510 - val\_acc: 0.9041
+Epoch 93/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2458 - acc:
+0.8992 - val\_loss: 0.2569 - val\_acc: 0.9041
+Epoch 94/100
+1022/1022 [==============================] - 0s 25us/step - loss: 0.2464 - acc:
+0.8973 - val\_loss: 0.2487 - val\_acc: 0.9041
+Epoch 95/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2460 - acc:
+0.8963 - val\_loss: 0.2483 - val\_acc: 0.9041
+Epoch 96/100
+1022/1022 [==============================] - 0s 31us/step - loss: 0.2464 - acc:
+0.8982 - val\_loss: 0.2487 - val\_acc: 0.9041
+Epoch 97/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2455 - acc:
+0.9002 - val\_loss: 0.2485 - val\_acc: 0.9041
+Epoch 98/100
+1022/1022 [==============================] - 0s 31us/step - loss: 0.2457 - acc:
+0.8973 - val\_loss: 0.2485 - val\_acc: 0.9041
+Epoch 99/100
+1022/1022 [==============================] - 0s 26us/step - loss: 0.2456 - acc:
+0.8992 - val\_loss: 0.2481 - val\_acc: 0.9041
+Epoch 100/100
+1022/1022 [==============================] - 0s 27us/step - loss: 0.2467 - acc:
+0.8992 - val\_loss: 0.2490 - val\_acc: 0.9041
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{Y\PYZus{}test}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+219/219 [==============================] - 0s 17us/step
+\end{Verbatim}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.849315072031326
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epoch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Val}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{acc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}acc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epoch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Val}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{51}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}2} \PY{o}{=} \PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+\PY{p}{]}\PY{p}{)}
+\PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{hist\PYZus{}2} \PY{o}{=} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{Y\PYZus{}train}\PY{p}{,}
+          \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+          \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{X\PYZus{}val}\PY{p}{,} \PY{n}{Y\PYZus{}val}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train on 1022 samples, validate on 219 samples
+Epoch 1/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.5025 - acc:
+0.7603 - val\_loss: 0.3829 - val\_acc: 0.8584
+Epoch 2/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.3713 - acc:
+0.8552 - val\_loss: 0.3182 - val\_acc: 0.8584
+Epoch 3/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.3151 - acc:
+0.8679 - val\_loss: 0.2887 - val\_acc: 0.8676
+Epoch 4/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2837 - acc:
+0.8973 - val\_loss: 0.3367 - val\_acc: 0.8584
+Epoch 5/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2732 - acc:
+0.8953 - val\_loss: 0.3019 - val\_acc: 0.8721
+Epoch 6/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2583 - acc:
+0.8943 - val\_loss: 0.2590 - val\_acc: 0.8813
+Epoch 7/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2432 - acc:
+0.8973 - val\_loss: 0.2708 - val\_acc: 0.8813
+Epoch 8/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2520 - acc:
+0.9061 - val\_loss: 0.2451 - val\_acc: 0.9041
+Epoch 9/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2152 - acc:
+0.9168 - val\_loss: 0.2485 - val\_acc: 0.8995
+Epoch 10/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2202 - acc:
+0.9178 - val\_loss: 0.2594 - val\_acc: 0.8904
+Epoch 11/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2323 - acc:
+0.9070 - val\_loss: 0.2699 - val\_acc: 0.8904
+Epoch 12/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2095 - acc:
+0.9168 - val\_loss: 0.2561 - val\_acc: 0.8904
+Epoch 13/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1982 - acc:
+0.9178 - val\_loss: 0.2626 - val\_acc: 0.8858
+Epoch 14/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2070 - acc:
+0.9139 - val\_loss: 0.3038 - val\_acc: 0.8858
+Epoch 15/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1948 - acc:
+0.9129 - val\_loss: 0.3876 - val\_acc: 0.8584
+Epoch 16/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2174 - acc:
+0.9100 - val\_loss: 0.2439 - val\_acc: 0.9087
+Epoch 17/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1912 - acc:
+0.9159 - val\_loss: 0.2785 - val\_acc: 0.8995
+Epoch 18/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2118 - acc:
+0.9119 - val\_loss: 0.2456 - val\_acc: 0.8995
+Epoch 19/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1839 - acc:
+0.9256 - val\_loss: 0.2833 - val\_acc: 0.8950
+Epoch 20/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1822 - acc:
+0.9207 - val\_loss: 0.3868 - val\_acc: 0.8402
+Epoch 21/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2027 - acc:
+0.9188 - val\_loss: 0.2589 - val\_acc: 0.8950
+Epoch 22/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1941 - acc:
+0.9149 - val\_loss: 0.2554 - val\_acc: 0.8858
+Epoch 23/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1817 - acc:
+0.9276 - val\_loss: 0.2636 - val\_acc: 0.9132
+Epoch 24/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1762 - acc:
+0.9286 - val\_loss: 0.2622 - val\_acc: 0.9087
+Epoch 25/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1769 - acc:
+0.9305 - val\_loss: 0.2743 - val\_acc: 0.9132
+Epoch 26/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1739 - acc:
+0.9188 - val\_loss: 0.2964 - val\_acc: 0.8904
+Epoch 27/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2032 - acc:
+0.9051 - val\_loss: 0.3085 - val\_acc: 0.9041
+Epoch 28/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1761 - acc:
+0.9237 - val\_loss: 0.3101 - val\_acc: 0.9087
+Epoch 29/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1711 - acc:
+0.9276 - val\_loss: 0.2664 - val\_acc: 0.9132
+Epoch 30/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1726 - acc:
+0.9344 - val\_loss: 0.2748 - val\_acc: 0.9132
+Epoch 31/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1662 - acc:
+0.9344 - val\_loss: 0.3127 - val\_acc: 0.8995
+Epoch 32/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1939 - acc:
+0.9217 - val\_loss: 0.2786 - val\_acc: 0.9087
+Epoch 33/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1579 - acc:
+0.9384 - val\_loss: 0.3001 - val\_acc: 0.9132
+Epoch 34/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1551 - acc:
+0.9335 - val\_loss: 0.4045 - val\_acc: 0.8904
+Epoch 35/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1767 - acc:
+0.9217 - val\_loss: 0.2994 - val\_acc: 0.8858
+Epoch 36/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1705 - acc:
+0.9305 - val\_loss: 0.2838 - val\_acc: 0.8950
+Epoch 37/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1560 - acc:
+0.9335 - val\_loss: 0.3310 - val\_acc: 0.8767
+Epoch 38/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1579 - acc:
+0.9344 - val\_loss: 0.3290 - val\_acc: 0.9041
+Epoch 39/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1852 - acc:
+0.9237 - val\_loss: 0.3552 - val\_acc: 0.8995
+Epoch 40/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.2113 - acc:
+0.9159 - val\_loss: 0.2824 - val\_acc: 0.8950
+Epoch 41/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1889 - acc:
+0.9276 - val\_loss: 0.2805 - val\_acc: 0.8813
+Epoch 42/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1869 - acc:
+0.9168 - val\_loss: 0.2838 - val\_acc: 0.8904
+Epoch 43/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1791 - acc:
+0.9188 - val\_loss: 0.3405 - val\_acc: 0.8995
+Epoch 44/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1506 - acc:
+0.9374 - val\_loss: 0.6033 - val\_acc: 0.8356
+Epoch 45/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1626 - acc:
+0.9286 - val\_loss: 0.3285 - val\_acc: 0.8904
+Epoch 46/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1484 - acc:
+0.9384 - val\_loss: 0.3022 - val\_acc: 0.8995
+Epoch 47/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1522 - acc:
+0.9413 - val\_loss: 0.3452 - val\_acc: 0.9041
+Epoch 48/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1609 - acc:
+0.9344 - val\_loss: 0.3427 - val\_acc: 0.9041
+Epoch 49/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1465 - acc:
+0.9354 - val\_loss: 0.3731 - val\_acc: 0.8995
+Epoch 50/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1486 - acc:
+0.9374 - val\_loss: 0.3965 - val\_acc: 0.8767
+Epoch 51/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1424 - acc:
+0.9501 - val\_loss: 0.3561 - val\_acc: 0.8721
+Epoch 52/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1440 - acc:
+0.9364 - val\_loss: 0.3236 - val\_acc: 0.9132
+Epoch 53/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1406 - acc:
+0.9452 - val\_loss: 0.3087 - val\_acc: 0.8950
+Epoch 54/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1342 - acc:
+0.9423 - val\_loss: 0.4169 - val\_acc: 0.8950
+Epoch 55/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1379 - acc:
+0.9442 - val\_loss: 0.3449 - val\_acc: 0.8950
+Epoch 56/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1348 - acc:
+0.9452 - val\_loss: 0.3664 - val\_acc: 0.8950
+Epoch 57/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1551 - acc:
+0.9354 - val\_loss: 0.2990 - val\_acc: 0.9087
+Epoch 58/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1793 - acc:
+0.9188 - val\_loss: 0.3958 - val\_acc: 0.8995
+Epoch 59/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1316 - acc:
+0.9472 - val\_loss: 0.3532 - val\_acc: 0.8813
+Epoch 60/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1343 - acc:
+0.9413 - val\_loss: 0.4418 - val\_acc: 0.8676
+Epoch 61/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1412 - acc:
+0.9384 - val\_loss: 0.3781 - val\_acc: 0.8995
+Epoch 62/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1493 - acc:
+0.9442 - val\_loss: 0.3791 - val\_acc: 0.8858
+Epoch 63/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1417 - acc:
+0.9305 - val\_loss: 0.4254 - val\_acc: 0.8950
+Epoch 64/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1207 - acc:
+0.9501 - val\_loss: 0.3555 - val\_acc: 0.8904
+Epoch 65/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1311 - acc:
+0.9481 - val\_loss: 0.4094 - val\_acc: 0.8858
+Epoch 66/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1272 - acc:
+0.9511 - val\_loss: 0.4960 - val\_acc: 0.8950
+Epoch 67/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1129 - acc:
+0.9530 - val\_loss: 0.3983 - val\_acc: 0.8447
+Epoch 68/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1427 - acc:
+0.9325 - val\_loss: 0.4539 - val\_acc: 0.8813
+Epoch 69/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1376 - acc:
+0.9413 - val\_loss: 0.3821 - val\_acc: 0.8858
+Epoch 70/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1233 - acc:
+0.9501 - val\_loss: 0.5532 - val\_acc: 0.8904
+Epoch 71/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1156 - acc:
+0.9462 - val\_loss: 0.4394 - val\_acc: 0.8995
+Epoch 72/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1233 - acc:
+0.9462 - val\_loss: 0.5587 - val\_acc: 0.8950
+Epoch 73/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1184 - acc:
+0.9560 - val\_loss: 0.3522 - val\_acc: 0.8950
+Epoch 74/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1247 - acc:
+0.9521 - val\_loss: 0.5312 - val\_acc: 0.8904
+Epoch 75/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1221 - acc:
+0.9462 - val\_loss: 0.4553 - val\_acc: 0.8676
+Epoch 76/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1457 - acc:
+0.9452 - val\_loss: 0.3592 - val\_acc: 0.8630
+Epoch 77/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1181 - acc:
+0.9472 - val\_loss: 0.4656 - val\_acc: 0.9087
+Epoch 78/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1223 - acc:
+0.9501 - val\_loss: 0.3612 - val\_acc: 0.8721
+Epoch 79/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.0985 - acc:
+0.9628 - val\_loss: 0.5102 - val\_acc: 0.9041
+Epoch 80/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1197 - acc:
+0.9393 - val\_loss: 0.5054 - val\_acc: 0.8858
+Epoch 81/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1486 - acc:
+0.9354 - val\_loss: 0.4428 - val\_acc: 0.8995
+Epoch 82/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1060 - acc:
+0.9579 - val\_loss: 0.4858 - val\_acc: 0.8767
+Epoch 83/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.0991 - acc:
+0.9550 - val\_loss: 0.5654 - val\_acc: 0.9041
+Epoch 84/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1179 - acc:
+0.9432 - val\_loss: 0.4757 - val\_acc: 0.9041
+Epoch 85/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1354 - acc:
+0.9393 - val\_loss: 0.3974 - val\_acc: 0.8721
+Epoch 86/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1492 - acc:
+0.9335 - val\_loss: 0.3644 - val\_acc: 0.9041
+Epoch 87/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1148 - acc:
+0.9521 - val\_loss: 0.5374 - val\_acc: 0.8950
+Epoch 88/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1110 - acc:
+0.9569 - val\_loss: 0.4314 - val\_acc: 0.8858
+Epoch 89/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.0935 - acc:
+0.9638 - val\_loss: 0.5182 - val\_acc: 0.8721
+Epoch 90/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1062 - acc:
+0.9579 - val\_loss: 0.4637 - val\_acc: 0.8858
+Epoch 91/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1048 - acc:
+0.9560 - val\_loss: 0.5122 - val\_acc: 0.8995
+Epoch 92/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.0861 - acc:
+0.9628 - val\_loss: 0.6130 - val\_acc: 0.8950
+Epoch 93/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1163 - acc:
+0.9491 - val\_loss: 0.5092 - val\_acc: 0.8995
+Epoch 94/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1125 - acc:
+0.9540 - val\_loss: 0.6272 - val\_acc: 0.8721
+Epoch 95/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1146 - acc:
+0.9501 - val\_loss: 0.5163 - val\_acc: 0.8858
+Epoch 96/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1007 - acc:
+0.9599 - val\_loss: 0.5588 - val\_acc: 0.8904
+Epoch 97/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.0944 - acc:
+0.9589 - val\_loss: 0.5074 - val\_acc: 0.8676
+Epoch 98/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.0957 - acc:
+0.9638 - val\_loss: 0.5419 - val\_acc: 0.8402
+Epoch 99/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1826 - acc:
+0.9335 - val\_loss: 0.3671 - val\_acc: 0.9041
+Epoch 100/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.1261 - acc:
+0.9521 - val\_loss: 0.4350 - val\_acc: 0.8721
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{52}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}2}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}2}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epoch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Val}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{53}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}2}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{acc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}2}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}acc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epoch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Val}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{layers} \PY{k}{import} \PY{n}{Dropout}
+\PY{k+kn}{from} \PY{n+nn}{keras} \PY{k}{import} \PY{n}{regularizers}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}3} \PY{o}{=} \PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{regularizers}\PY{o}{.}\PY{n}{l2}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{,} \PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.3}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{regularizers}\PY{o}{.}\PY{n}{l2}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.3}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{regularizers}\PY{o}{.}\PY{n}{l2}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.3}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{regularizers}\PY{o}{.}\PY{n}{l2}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.3}\PY{p}{)}\PY{p}{,}
+    \PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sigmoid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{regularizers}\PY{o}{.}\PY{n}{l2}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+WARNING:tensorflow:From /home/spit/anaconda3/lib/python3.7/site-
+packages/keras/backend/tensorflow\_backend.py:3733: calling dropout (from
+tensorflow.python.ops.nn\_ops) with keep\_prob is deprecated and will be removed
+in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep\_prob`. Rate should be set to `rate = 1 -
+keep\_prob`.
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{57}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}3}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{hist\PYZus{}3} \PY{o}{=} \PY{n}{model\PYZus{}3}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{Y\PYZus{}train}\PY{p}{,}
+          \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+          \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{X\PYZus{}val}\PY{p}{,} \PY{n}{Y\PYZus{}val}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train on 1022 samples, validate on 219 samples
+Epoch 1/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 14.6677 - acc:
+0.5793 - val\_loss: 4.0567 - val\_acc: 0.8265
+Epoch 2/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 1.7315 - acc:
+0.8239 - val\_loss: 0.7466 - val\_acc: 0.7900
+Epoch 3/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.5608 - acc:
+0.8728 - val\_loss: 0.4828 - val\_acc: 0.8950
+Epoch 4/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4916 - acc:
+0.8718 - val\_loss: 0.4672 - val\_acc: 0.8721
+Epoch 5/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4762 - acc:
+0.8865 - val\_loss: 0.4652 - val\_acc: 0.8950
+Epoch 6/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4861 - acc:
+0.8777 - val\_loss: 0.4760 - val\_acc: 0.8904
+Epoch 7/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4748 - acc:
+0.8748 - val\_loss: 0.5389 - val\_acc: 0.8265
+Epoch 8/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4897 - acc:
+0.8601 - val\_loss: 0.4432 - val\_acc: 0.8858
+Epoch 9/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4632 - acc:
+0.8777 - val\_loss: 0.4347 - val\_acc: 0.8950
+Epoch 10/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4574 - acc:
+0.8836 - val\_loss: 0.5042 - val\_acc: 0.8447
+Epoch 11/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4611 - acc:
+0.8845 - val\_loss: 0.4459 - val\_acc: 0.8995
+Epoch 12/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4465 - acc:
+0.8885 - val\_loss: 0.4919 - val\_acc: 0.8584
+Epoch 13/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4617 - acc:
+0.8757 - val\_loss: 0.4474 - val\_acc: 0.8950
+Epoch 14/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4781 - acc:
+0.8650 - val\_loss: 0.4564 - val\_acc: 0.8950
+Epoch 15/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4425 - acc:
+0.8806 - val\_loss: 0.4586 - val\_acc: 0.8630
+Epoch 16/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4551 - acc:
+0.8796 - val\_loss: 0.4313 - val\_acc: 0.8995
+Epoch 17/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4561 - acc:
+0.8728 - val\_loss: 0.4635 - val\_acc: 0.8721
+Epoch 18/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4471 - acc:
+0.8865 - val\_loss: 0.4219 - val\_acc: 0.9041
+Epoch 19/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4376 - acc:
+0.8865 - val\_loss: 0.4225 - val\_acc: 0.8904
+Epoch 20/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4359 - acc:
+0.8845 - val\_loss: 0.4256 - val\_acc: 0.8904
+Epoch 21/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4572 - acc:
+0.8669 - val\_loss: 0.4259 - val\_acc: 0.9041
+Epoch 22/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4325 - acc:
+0.8914 - val\_loss: 0.4175 - val\_acc: 0.9041
+Epoch 23/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4432 - acc:
+0.8875 - val\_loss: 0.4239 - val\_acc: 0.9041
+Epoch 24/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4467 - acc:
+0.8796 - val\_loss: 0.4201 - val\_acc: 0.9041
+Epoch 25/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4418 - acc:
+0.8816 - val\_loss: 0.4170 - val\_acc: 0.9041
+Epoch 26/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4369 - acc:
+0.8963 - val\_loss: 0.4203 - val\_acc: 0.8858
+Epoch 27/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4259 - acc:
+0.8924 - val\_loss: 0.4164 - val\_acc: 0.8995
+Epoch 28/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4461 - acc:
+0.8885 - val\_loss: 0.4219 - val\_acc: 0.8813
+Epoch 29/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4353 - acc:
+0.8855 - val\_loss: 0.4275 - val\_acc: 0.9041
+Epoch 30/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4527 - acc:
+0.8875 - val\_loss: 0.4324 - val\_acc: 0.8858
+Epoch 31/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4614 - acc:
+0.8689 - val\_loss: 0.4771 - val\_acc: 0.8584
+Epoch 32/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4508 - acc:
+0.8787 - val\_loss: 0.4198 - val\_acc: 0.9041
+Epoch 33/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4293 - acc:
+0.8953 - val\_loss: 0.4204 - val\_acc: 0.9041
+Epoch 34/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4306 - acc:
+0.8845 - val\_loss: 0.4434 - val\_acc: 0.8721
+Epoch 35/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4453 - acc:
+0.8885 - val\_loss: 0.4390 - val\_acc: 0.8721
+Epoch 36/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4280 - acc:
+0.8806 - val\_loss: 0.4227 - val\_acc: 0.8813
+Epoch 37/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4474 - acc:
+0.8855 - val\_loss: 0.4186 - val\_acc: 0.8995
+Epoch 38/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4451 - acc:
+0.8845 - val\_loss: 0.4176 - val\_acc: 0.8950
+Epoch 39/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4290 - acc:
+0.8943 - val\_loss: 0.4188 - val\_acc: 0.9041
+Epoch 40/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4327 - acc:
+0.8806 - val\_loss: 0.4335 - val\_acc: 0.8995
+Epoch 41/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4392 - acc:
+0.8885 - val\_loss: 0.4567 - val\_acc: 0.8721
+Epoch 42/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4712 - acc:
+0.8650 - val\_loss: 0.4492 - val\_acc: 0.8858
+Epoch 43/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4475 - acc:
+0.8875 - val\_loss: 0.4216 - val\_acc: 0.9041
+Epoch 44/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4372 - acc:
+0.8894 - val\_loss: 0.4244 - val\_acc: 0.8904
+Epoch 45/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4310 - acc:
+0.8904 - val\_loss: 0.4234 - val\_acc: 0.8813
+Epoch 46/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4220 - acc:
+0.8933 - val\_loss: 0.4267 - val\_acc: 0.8995
+Epoch 47/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4269 - acc:
+0.9002 - val\_loss: 0.4138 - val\_acc: 0.9041
+Epoch 48/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4403 - acc:
+0.8748 - val\_loss: 0.4266 - val\_acc: 0.8904
+Epoch 49/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4363 - acc:
+0.8855 - val\_loss: 0.4179 - val\_acc: 0.9041
+Epoch 50/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4455 - acc:
+0.8728 - val\_loss: 0.4668 - val\_acc: 0.8630
+Epoch 51/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4452 - acc:
+0.8718 - val\_loss: 0.4449 - val\_acc: 0.8676
+Epoch 52/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4383 - acc:
+0.8826 - val\_loss: 0.4423 - val\_acc: 0.8813
+Epoch 53/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4416 - acc:
+0.8865 - val\_loss: 0.4154 - val\_acc: 0.8995
+Epoch 54/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4394 - acc:
+0.8845 - val\_loss: 0.4991 - val\_acc: 0.8493
+Epoch 55/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4427 - acc:
+0.8875 - val\_loss: 0.4178 - val\_acc: 0.8858
+Epoch 56/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4383 - acc:
+0.8748 - val\_loss: 0.4431 - val\_acc: 0.8813
+Epoch 57/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4489 - acc:
+0.8787 - val\_loss: 0.4195 - val\_acc: 0.8813
+Epoch 58/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4313 - acc:
+0.8787 - val\_loss: 0.4354 - val\_acc: 0.8904
+Epoch 59/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4188 - acc:
+0.8963 - val\_loss: 0.4172 - val\_acc: 0.8904
+Epoch 60/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4389 - acc:
+0.8787 - val\_loss: 0.4326 - val\_acc: 0.8950
+Epoch 61/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4401 - acc:
+0.8816 - val\_loss: 0.4172 - val\_acc: 0.9041
+Epoch 62/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4543 - acc:
+0.8738 - val\_loss: 0.4261 - val\_acc: 0.8904
+Epoch 63/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4276 - acc:
+0.8875 - val\_loss: 0.4153 - val\_acc: 0.8858
+Epoch 64/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4331 - acc:
+0.8885 - val\_loss: 0.4227 - val\_acc: 0.8904
+Epoch 65/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4329 - acc:
+0.8924 - val\_loss: 0.4505 - val\_acc: 0.8721
+Epoch 66/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4203 - acc:
+0.8885 - val\_loss: 0.4231 - val\_acc: 0.8995
+Epoch 67/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4305 - acc:
+0.8826 - val\_loss: 0.4121 - val\_acc: 0.9041
+Epoch 68/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4244 - acc:
+0.8924 - val\_loss: 0.4243 - val\_acc: 0.8995
+Epoch 69/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4540 - acc:
+0.8767 - val\_loss: 0.4285 - val\_acc: 0.8858
+Epoch 70/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4340 - acc:
+0.8806 - val\_loss: 0.4155 - val\_acc: 0.8858
+Epoch 71/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4470 - acc:
+0.8845 - val\_loss: 0.4185 - val\_acc: 0.8858
+Epoch 72/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4319 - acc:
+0.8787 - val\_loss: 0.4149 - val\_acc: 0.8950
+Epoch 73/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4261 - acc:
+0.8904 - val\_loss: 0.4773 - val\_acc: 0.8630
+Epoch 74/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4481 - acc:
+0.8738 - val\_loss: 0.4144 - val\_acc: 0.9041
+Epoch 75/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4399 - acc:
+0.8757 - val\_loss: 0.4316 - val\_acc: 0.8813
+Epoch 76/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4429 - acc:
+0.8845 - val\_loss: 0.4740 - val\_acc: 0.8630
+Epoch 77/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4367 - acc:
+0.8924 - val\_loss: 0.4163 - val\_acc: 0.8858
+Epoch 78/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4229 - acc:
+0.8845 - val\_loss: 0.4173 - val\_acc: 0.8858
+Epoch 79/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4231 - acc:
+0.8924 - val\_loss: 0.4206 - val\_acc: 0.8904
+Epoch 80/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4278 - acc:
+0.8904 - val\_loss: 0.4159 - val\_acc: 0.9041
+Epoch 81/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4294 - acc:
+0.8894 - val\_loss: 0.4347 - val\_acc: 0.8858
+Epoch 82/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4332 - acc:
+0.8787 - val\_loss: 0.4401 - val\_acc: 0.8767
+Epoch 83/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4525 - acc:
+0.8748 - val\_loss: 0.4194 - val\_acc: 0.8813
+Epoch 84/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4350 - acc:
+0.8796 - val\_loss: 0.4181 - val\_acc: 0.9041
+Epoch 85/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4250 - acc:
+0.8904 - val\_loss: 0.4141 - val\_acc: 0.8995
+Epoch 86/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4307 - acc:
+0.8875 - val\_loss: 0.4258 - val\_acc: 0.8995
+Epoch 87/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4263 - acc:
+0.8875 - val\_loss: 0.4120 - val\_acc: 0.8995
+Epoch 88/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4314 - acc:
+0.8933 - val\_loss: 0.4208 - val\_acc: 0.8858
+Epoch 89/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4406 - acc:
+0.8738 - val\_loss: 0.4393 - val\_acc: 0.8767
+Epoch 90/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4412 - acc:
+0.8855 - val\_loss: 0.4172 - val\_acc: 0.8813
+Epoch 91/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4262 - acc:
+0.8914 - val\_loss: 0.4373 - val\_acc: 0.8813
+Epoch 92/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4236 - acc:
+0.8943 - val\_loss: 0.4334 - val\_acc: 0.8858
+Epoch 93/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4351 - acc:
+0.8816 - val\_loss: 0.4564 - val\_acc: 0.8676
+Epoch 94/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4328 - acc:
+0.8836 - val\_loss: 0.4228 - val\_acc: 0.8904
+Epoch 95/100
+1022/1022 [==============================] - 1s 1ms/step - loss: 0.4275 - acc:
+0.8855 - val\_loss: 0.4290 - val\_acc: 0.8813
+Epoch 96/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4526 - acc:
+0.8757 - val\_loss: 0.4244 - val\_acc: 0.8813
+Epoch 97/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4303 - acc:
+0.8787 - val\_loss: 0.4131 - val\_acc: 0.8995
+Epoch 98/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4317 - acc:
+0.8904 - val\_loss: 0.4164 - val\_acc: 0.9041
+Epoch 99/100
+1022/1022 [==============================] - 2s 1ms/step - loss: 0.4409 - acc:
+0.8826 - val\_loss: 0.5085 - val\_acc: 0.8356
+Epoch 100/100
+1022/1022 [==============================] - 2s 2ms/step - loss: 0.4446 - acc:
+0.8826 - val\_loss: 0.4638 - val\_acc: 0.8676
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{58}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}3}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}3}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epoch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Val}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{,} \PY{n}{bottom}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{59}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}3}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{acc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hist\PYZus{}3}\PY{o}{.}\PY{n}{history}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}acc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Model accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epoch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Val}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_29_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
